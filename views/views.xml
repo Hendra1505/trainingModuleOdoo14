@@ -9,6 +9,7 @@
     <field name="arch" type="xml">
       <tree string="Course List">
         <field name="name"/>
+        <field name="user_id"/>
         <field name="description"/>
       </tree>
     </field>
@@ -24,8 +25,36 @@
         <sheet>
           <group>
             <field name="name"/>
+            <field name="user_id"/>
           </group>
           <notebook>
+            <page string="Sesi Belajar">
+              <group>
+                <field name="session_line" mode="tree,kanban" nolabel="1">
+                  <tree string="Sesi" editable = "top">
+                    <field name="name"/>
+                    <field name="partner_id"/>
+                    <field name="start_date"/>
+                    <field name="duration"/>
+                    <field name="seats"/>
+                  </tree>
+                  <form string='Sesi Belajar'>
+                    <group>
+                      <field name="name"/>
+                      <field name="partner_id"/>
+                      <field name="start_date"/>
+                      <field name="duration"/>
+                      <field name="seats"/>
+                    </group>
+                  </form>
+                </field>
+              </group>
+            </page>
+            <page string="Souvenir">
+              <group>
+                <field name="product_ids" nolabel="1"/>
+              </group>
+            </page>
             <page string="Keterangan">
               <group>
                 <field name="description"/>
@@ -60,6 +89,53 @@
 
   <!-- Membuat Menu Item Course -->
   <menuitem id="menu_item_training_course" name="Course" parent="menu_bar_training_odoo" action="training_course_action"/>
+
+
+  <!-- Membuat View Tree/List Session -->
+  <record id="training_session_view_tree" model="ir.ui.view">
+    <field name="name">training.session.tree</field>
+    <field name="model">training.session</field>
+    <field name="arch" type="xml">
+      <tree string="session List">
+        <field name="course_id"/>
+        <field name="name"/>
+        <field name="partner_id"/>
+        <field name="start_date"/>
+        <field name="duration"/>
+        <field name="seats"/>
+      </tree>
+    </field>
+  </record>
+
+  <!-- Membuat View Form Session -->
+  <record id="training_session_view_form" model="ir.ui.view">
+    <field name="name">training.session.form</field>
+    <field name="model">training.session</field>
+    <field name="arch" type="xml">
+      <form string="Session Form">
+        <sheet>
+          <group col="4">
+            <field name="course_id"/>
+            <field name="start_date"/>
+            <field name="name"/>
+            <field name="duration"/>
+            <field name="partner_id"/>
+            <field name="seats"/>
+          </group>
+        </sheet>
+      </form>
+    </field>
+  </record>
+
+  <!-- Membuat Action/Event Session -->
+  <record id="training_session_action" model="ir.actions.act_window">
+    <field name="name">Session</field>
+    <field name="res_model">training.session</field>
+    <field name="view_mode">tree,form</field>
+  </record>
+
+  <!-- Membuat Menu Item Session -->
+  <menuitem id="menu_item_training_session" name="Session" parent="menu_bar_training_odoo" action="training_session_action"/>
 
 
 </odoo>
